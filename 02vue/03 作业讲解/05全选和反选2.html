@@ -33,7 +33,7 @@
     <div id="app">
         <h1>全选：<input type="checkbox" v-model="checkall"></h1>
         <div class="con" v-for="(item, index) in goodslist">
-            <h3>{{ item.shop_name }}：<input type="checkbox" @click="selectall(index)" v-model="item.shop_check">
+            <h3>{{ item.shop_name }}：<input type="checkbox" v-model="item.shop_check">
             </h3>
             <ul>
                 <li v-for="(good, idx) in item.goods">
@@ -130,14 +130,15 @@
         watch: {//监听器
             goodslist: {
                 deep: true,//深度监听
-                handler(newval) {
+                handler(newval, oldval) {
+
                     // console.log('变了');
                     newval.forEach(item => {
                         //item：商铺信息
-                        // item.shop_check = item.goods.every(good => good.good_check);
-                        item.goods.forEach(ele => {
-                            ele.good_check = newval.shop_check;
-                        })
+                        item.shop_check = item.goods.every(good => good.good_check);
+                        // item.goods.forEach(ele => {
+                        //     ele.good_check = newval.shop_check;
+                        // })
                     });
                 }
             }
