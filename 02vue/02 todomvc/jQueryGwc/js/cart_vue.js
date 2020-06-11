@@ -128,7 +128,7 @@
             ]
         },
         methods: {
-            add(index, idx) {//加
+            add(index, idx) {//加数量
                 //index：店铺索引  idx：商品索引   2,0代表要找到第三家店铺的第一个商品，数量加1
                 // let num = this.goodlists[index].shop_comm[idx].num;
                 // let kucun = this.goodlists[index].shop_comm[idx].stock;
@@ -136,14 +136,14 @@
                 this.goodlists[index].shop_comm[idx].num++;
                 // }
             },
-            cut(index, idx) {
+            cut(index, idx) {//减数量
                 //index：店铺索引  idx：商品索引   2,0代表要找到第三家店铺的第一个商品，数量加1
                 // let num = this.goodlists[index].shop_comm[idx].num;
                 // if (num > 1) {
                 this.goodlists[index].shop_comm[idx].num--;
                 // }
             },
-            remove(index, idx) {
+            remove(index, idx) {//删除某个商品
                 let issure = confirm('您确定要删除吗?');
                 if (issure) {
                     this.goodlists[index].shop_comm.splice(idx, 1);
@@ -153,12 +153,19 @@
                     }
                 }
 
+            },
+            selectAll(index) {
+                //二级复选框控制三级复选框
+                this.goodlists[index].shop_comm.forEach(good => {
+                    good.comm_isok = 
+                })
             }
         },
         watch: {
             goodlists: {//监听数量必须要小于库存，至少买一份
                 deep: true,
                 handler(newval) {
+                    //判断数量的范围，超出范围就还原数据，在数量变化的时候会触发
                     newval.forEach(shop => {
                         shop.shop_comm.forEach(good => {
                             let num = good.num;//数量
@@ -172,6 +179,27 @@
                             }
                         });
                     });
+
+                    //三级复选框控制二级复选框
+                    newval.forEach(shop => {
+                        shop.shop_isok = shop.shop_comm.every(good => good.comm_isok);
+                    })
+                }
+            }
+        },
+        computed: {
+            checkall: {//全选的实现
+                get() {
+                    return this.goodlists.every(item => item.shop_isok);
+                },
+                set(val) {
+                    //一级复选框控制三级复选框
+                    this.goodlists.forEach(shop => {
+                        shop.shop_comm.forEach(good => {
+                            good.comm_isok = val;
+                        })
+                    })
+                    // console.log(val);
                 }
             }
         }

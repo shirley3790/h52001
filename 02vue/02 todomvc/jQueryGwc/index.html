@@ -18,7 +18,7 @@
                 <ul class="order_lists cartTop">
                     <li class="list_chk">
                         <!--所有商品全选-->
-                        <input type="checkbox" class="whole_check">
+                        <input type="checkbox" class="whole_check" v-model="checkall">
                         <!-- <label for="all"></label> -->
                         全选
                     </li>
@@ -35,7 +35,7 @@
                 <div class="shop_info">
                     <div class="all_check">
                         <!--店铺全选按钮-->
-                        <input type="checkbox" class="shopChoice" v-model="item.shop_isok">
+                        <input type="checkbox" @click="selectAll(index)" class="shopChoice" v-model="item.shop_isok">
                         <!-- <label for="shop_a" class="shop"></label> -->
                     </div>
                     <div class="shop_name">
