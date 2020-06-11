@@ -3,10 +3,10 @@ html,body{
     width: 100%;
     min-height: 950px;
 }
-input[type="checkbox"]{
-    display: none;
-}
-label{
+/* input[type="checkbox"]{
+    /* display: none;
+}  */
+/* label{
     position: relative;
     display: inline-block;
     z-index: 1;
@@ -16,10 +16,10 @@ label{
     width: 12px;
     height: 12px;
     cursor: pointer;
-}
-label.mark{
+} */
+/* label.mark{
     background: url("../images/mark1.png") no-repeat -1px -1px;
-}
+} */
 
 a:hover{
     color: #ff873e;
@@ -91,8 +91,8 @@ a:hover{
 .cartBox .shop_info .all_check input[type="checkbox"]{
     position: absolute;
     z-index: 0;
-    left: -20px;
-    top: -20px;
+    left: 6px;
+    top: 15px;
 }
 .cartBox .shop_info .all_check .shop{
     position: absolute;
@@ -131,8 +131,14 @@ a:hover{
 .order_lists .list_chk input[type="checkbox"]{
     position: absolute;
     z-index: 0;
-    left: -20px;
-    top: -20px;
+    left: 22px;
+    top: 50px;
+}
+.cartTop .list_chk input[type="checkbox"]{
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 20px;
 }
 .order_lists .list_chk label{
     margin: 20px 0 0 24px;
