@@ -33,7 +33,8 @@
     <div id="app">
         <h1>全选：<input type="checkbox" v-model="checkall"></h1>
         <div class="con" v-for="(item, index) in goodslist">
-            <h3>{{ item.shop_name }}：<input type="checkbox" v-model="item.check_shop"> </h3>
+            <h3>{{ item.shop_name }}：<input type="checkbox" @click="selectall(index)" v-model="item.shop_check">
+            </h3>
             <ul>
                 <li v-for="(good, idx) in item.goods">
                     <p><input type="checkbox" v-model="good.good_check"></p>
@@ -61,10 +62,11 @@
     let vm = new Vue({
         el: '#app',//挂载入口，里面写是选择器(可以是id、class、标签)；不能挂载在body和html上
         data: {//放数据
+            isok: true,
             goodslist: [
                 {
                     shop_name: '卫龙之家',
-                    check_shop: false,//店铺复选框
+                    shop_check: false,//店铺复选框
                     goods: [//商品数据
                         {
                             good_name: '辣条',
@@ -76,7 +78,7 @@
                     ]
                 }, {
                     shop_name: '茶艺香',
-                    check_shop: false,//店铺复选框
+                    shop_check: false,//店铺复选框
                     goods: [//商品数据
                         {
                             good_name: '绿茶',
@@ -90,23 +92,55 @@
             ]
         },
         methods: {//放方法
+            selectall(index) {
+                //index店铺索引
+                console.log(index);
+                console.log(this.goodslist[index].shop_check);
+                // this.goodslist[index].goods.forEach(ele => {
+                //     ele.good_check = this.goodslist[index].shop_check;
+                // })
 
+            }
         },
         computed: {//计算属性
             checkall: {
                 get() {
-                    return this.goodslist.every(item => item.is_checked);
+                    //商品选中，控制全选
+                    let ischecked = true;
+                    this.goodslist.forEach(shop => {
+                        shop.goods.forEach(item => {
+                            if (!item.good_check) {
+                                ischecked = false;
+                            }
+                        });
+                    });
+                    // console.log(ischecked);
+                    return ischecked;
                 },
                 set(val) {
-                    // console.log(val);
-                    this.goodslist.forEach(ele => {
-                        ele.is_checked = val;
+                    //点击全选，所有商品被选中
+                    this.goodslist.forEach(shop => {
+                        ischecked = shop.goods.forEach(item => {
+                            item.good_check = val;
+                        });
                     });
                 }
             }
         },
         watch: {//监听器
-
+            goodslist: {
+                deep: true,//深度监听
+                handler(newval) {
+                    // console.log('变了');
+                    newval.forEach(item => {
+                        //item：商铺信息
+                        // item.shop_check = item.goods.every(good => good.good_check);
+                        item.goods.forEach(ele => {
+                            ele.good_check = newval.shop_check;
+                        })
+                    });
+                }
+            }
         }
     });
 </script>
