@@ -39,7 +39,7 @@
 			let list = localStorage.getItem(key);//字符串
 			return JSON.parse(list) || [];
 		},
-		setData(data) {
+		setData(data) {//存数据
 			localStorage.setItem(key, JSON.stringify(data));
 		}
 	}
