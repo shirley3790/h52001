@@ -201,6 +201,37 @@
                     })
                     // console.log(val);
                 }
+            },
+            total_num() {//总数量
+                let total = 0;
+                this.goodlists.forEach(shop => {
+                    shop.shop_comm.forEach(good => {
+                        total += good.num * 1;
+                    });
+                })
+                return total;
+            },
+            total_price() {
+                let total = 0;
+                this.goodlists.forEach(shop => {
+                    shop.shop_comm.forEach(good => {
+                        total += good.comm_price * good.num;
+                    });
+                })
+                return total;
+            },
+            jiesuan() {
+                let buy = false;
+                this.goodlists.forEach(shop => {
+                    shop.shop_comm.map(good => {
+                        if (good.comm_isok) {
+                            buy = true;
+                            return;
+                        }
+                    });
+                });
+                console.log(buy);
+                return buy;
             }
         }
     });
