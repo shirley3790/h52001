@@ -90,11 +90,15 @@
 			},
 			editItem(index) {
 				//双击的时候，让编辑表单出现
+				// console.log(index);
 				this.currentItem = index;
+				// this.$refs.editBtn.();
+				// console.log(this.$refs.editBtn.value);
 				// console.log(this.currentItem);
 			},
 			changeItem(index) {
 				//双击编辑表单，失去焦点或回车的时候，保存内容
+				console.log(index);
 				this.currentItem = null;
 				if (!this.taskList[index].con) {
 					//空数据,就删除
@@ -138,6 +142,11 @@
 		directives: {
 			'focus': {
 				inserted(el) {
+					el.focus();//底层的方法，没有兼容问题
+				}
+			},
+			'focus2': {
+				update(el) {
 					el.focus();//底层的方法，没有兼容问题
 				}
 			}

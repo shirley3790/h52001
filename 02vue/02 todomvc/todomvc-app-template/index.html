@@ -34,7 +34,7 @@
 						<button class="destroy" @click="removeItem(index)"></button>
 					</div>
 					<!-- 双击编辑表单，失去焦点或回车的时候，退出编辑 -->
-					<input class="edit" value="Create a TodoMVC template" @keyup.13="changeItem(index)"
+					<input class="edit" value="Create a TodoMVC template" v-focus2 @keyup.enter="$event.target.blur"
 						v-model="item.con" @blur="changeItem(index)">
 				</li>
 				<!-- <li>
@@ -48,7 +48,7 @@
 			</ul>
 		</section>
 		<!-- This footer should hidden by default and shown when there are todos -->
-		<footer class="footer">
+		<footer class="footer" v-show="filterItem.length">
 			<!-- This should be `0 items left` by default -->
 			<span class="todo-count"><strong>{{ activeCount }}</strong> {{ activeCount == 1 ? 'item' : 'items' }}
 				left</span>

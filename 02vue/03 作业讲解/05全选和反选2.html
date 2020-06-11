@@ -33,7 +33,7 @@
     <div id="app">
         <h1>全选：<input type="checkbox" v-model="checkall"></h1>
         <div class="con" v-for="(item, index) in goodslist">
-            <h3>{{ item.shop_name }}：<input type="checkbox" v-model="item.shop_check">
+            <h3>{{ item.shop_name }}：<input type="checkbox" @click="selectall(index)" v-model="item.shop_check">
             </h3>
             <ul>
                 <li v-for="(good, idx) in item.goods">
@@ -93,36 +93,25 @@
         },
         methods: {//放方法
             selectall(index) {
-                //index店铺索引
                 console.log(index);
-                console.log(this.goodslist[index].shop_check);
-                // this.goodslist[index].goods.forEach(ele => {
-                //     ele.good_check = this.goodslist[index].shop_check;
-                // })
-
+                this.goodslist[index].goods.map(item => item.good_check = !this.goodslist[index].shop_check);
             }
         },
         computed: {//计算属性
             checkall: {
                 get() {
                     //商品选中，控制全选
-                    let ischecked = true;
-                    this.goodslist.forEach(shop => {
-                        shop.goods.forEach(item => {
-                            if (!item.good_check) {
-                                ischecked = false;
-                            }
-                        });
-                    });
-                    // console.log(ischecked);
-                    return ischecked;
+                    return this.goodslist.every(item => item.shop_check);
                 },
                 set(val) {
                     //点击全选，所有商品被选中
-                    this.goodslist.forEach(shop => {
-                        ischecked = shop.goods.forEach(item => {
-                            item.good_check = val;
-                        });
+                    // this.goodslist.forEach(shop => {
+                    //     ischecked = shop.goods.forEach(item => {
+                    //         item.good_check = val;
+                    //     });
+                    // });
+                    this.goodslist.map(ele => {
+                        ele.goods.map(ele => ele.good_check = val)
                     });
                 }
             }
@@ -130,15 +119,13 @@
         watch: {//监听器
             goodslist: {
                 deep: true,//深度监听
-                handler(newval, oldval) {
+                immediate: true, //最初绑定的时候 立即执行监听
+                handler(newval) {
 
                     // console.log('变了');
                     newval.forEach(item => {
                         //item：商铺信息
                         item.shop_check = item.goods.every(good => good.good_check);
-                        // item.goods.forEach(ele => {
-                        //     ele.good_check = newval.shop_check;
-                        // })
                     });
                 }
             }
