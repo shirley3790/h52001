@@ -21,8 +21,16 @@ let router = new VueRouter({
                     ]
                 },
                 {
+                    name: 'tech',
                     path: 'tech',// 路由自动帮你补全 /new/tech;不能在子路由前加/
-                    component: Tech
+                    component: Tech,
+                    children: [
+                        {
+                            name: 'techDetail',
+                            path: '/news/tech/detail',
+                            component: techDetail
+                        }
+                    ]
                 },
                 {
                     path: '',
