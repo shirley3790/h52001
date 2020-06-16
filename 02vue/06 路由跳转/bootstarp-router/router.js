@@ -12,7 +12,13 @@ let router = new VueRouter({
             children: [//嵌套路由：在里面又设置一个子路由表
                 {
                     path: '/news/sport',//写成完成的路径
-                    component: Sport
+                    component: Sport,
+                    children: [
+                        {
+                            path: '/news/sport/detail/:id',//:id就是一个占位符，动态路由设置 id名字任取
+                            component: sportDetail
+                        }
+                    ]
                 },
                 {
                     path: 'tech',// 路由自动帮你补全 /new/tech;不能在子路由前加/
