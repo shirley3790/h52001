@@ -2,6 +2,8 @@
 const path = require("path");
 // 引入插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+//打包vue的插件
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 // console.log(__dirname);
 // let url = path.join(__dirname, './dist/js');
 // console.log(url);
@@ -40,6 +42,11 @@ module.exports = {
                         presets: ['@babel/preset-env'] // 内置好的转译工具
                     }
                 }
+            },
+            // vue打包配置规则
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
             }
         ]
     },
@@ -50,10 +57,18 @@ module.exports = {
             // 同时也会在 index.html 中自动的 <script> 引入 bundle.js
             // 注意：其中的文件名 bundle 取决于上面output.filename中指定的名称
             template: './index.html'
-        })
+        }),
+        // vue的插件：打包和编译
+        new VueLoaderPlugin()
     ],
     // 实时重新加载
     devServer: {
         contentBase: './dist'
-    }
+    },
+    // 解析完整版 vue.js
+    // resolve: {
+    //     alias: {
+    //         'vue$': 'vue/dist/vue.js'
+    //     }
+    // }
 }
