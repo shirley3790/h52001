@@ -1,3 +1,6 @@
+(function() {
+
+})()
 //创建vue-router实例，并配置路由表
 let router = new VueRouter({
     linkActiveClass: 'active',
