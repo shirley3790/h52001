@@ -20,6 +20,14 @@ request({
 });
 
 //测试3：工作一般用这种方式
+/*
+    员工管理：admin
+        * 查询所有员工
+        * 查询某个员工
+        * 新增员工
+        * 删除某个员工
+        * 修改员工信息
+*/
 export default {
     getList() {
         return request({ //返回一个promise对象

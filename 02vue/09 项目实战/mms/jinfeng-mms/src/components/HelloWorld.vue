@@ -86,7 +86,8 @@
 
 <script>
 //引入js文件，就可以调用了
-import testApi from "@/api/test.js";
+// import testApi from "@/api/test.js";
+import getdataApi from "@/api/getjson.js";
 
 export default {
   name: "HelloWorld",
@@ -106,7 +107,7 @@ export default {
   },
   created() {
     //进入页面就发送ajax请求
-    this.getdata();
+    // this.getdata();
   }
 };
 </script>
