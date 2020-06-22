@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 //components:一般是放子组件(很小的、复用的组件；轮播图组件、按钮组件、头部组件、底部组件)
 //views：路由引入的，大一点，页面组件，没有复用
 //container：大一点的复用组件
-// components -> container -> views
+// components(小组件) -> container(次组件) -> views(大组件)
 const routes = [
   {
     path: '/login',
@@ -52,7 +52,7 @@ const routes = [
       }, {
         path: '/staff',
         name: 'staff',
-        component: Staff, 
+        component: Staff,
         meta: { title: '员工管理' }
       }
     ]
