@@ -10,25 +10,9 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <el-menu-item index="/home/">
-          <i class="el-icon-s-home"></i>
-          <span slot="title">首页</span>
-        </el-menu-item>
-        <el-menu-item index="/member/">
-          <i class="el-icon-user-solid"></i>
-          <span slot="title">会员管理</span>
-        </el-menu-item>
-        <el-menu-item index="/supplier/">
-          <i class="el-icon-s-cooperation"></i>
-          <span slot="title">供应商管理</span>
-        </el-menu-item>
-        <el-menu-item index="/goods/">
-          <i class="el-icon-s-goods"></i>
-          <span slot="title">商品管理</span>
-        </el-menu-item>
-        <el-menu-item index="/staff/">
-          <i class="el-icon-user"></i>
-          <span slot="title">员工管理</span>
+        <el-menu-item :index="item.path" v-for="item in menuList" :key="item.icon">
+          <i :class="item.icon"></i>
+          <span slot="title">{{ item.title }}</span>
         </el-menu-item>
       </el-menu>
     </div>
@@ -38,7 +22,35 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      menuList: [
+        {
+          path: "/home/",
+          icon: "el-icon-s-home",
+          title: "首页"
+        },
+        {
+          path: "/member/",
+          icon: "el-icon-user-solid",
+          title: "会员管理"
+        },
+        {
+          path: "/supplier/",
+          icon: "el-icon-s-cooperation",
+          title: "供应商管理"
+        },
+        {
+          path: "/goods/",
+          icon: "el-icon-s-goods",
+          title: "商品管理"
+        },
+        {
+          path: "/staff/",
+          icon: "el-icon-user",
+          title: "员工管理"
+        }
+      ]
+    };
   },
 
   components: {},
@@ -51,4 +63,10 @@ export default {
 .el-menu {
   border-right: none;
 }
+/* .el-menu-item {
+  height: 80px;
+}
+.el-menu {
+  background: chartreuse;
+} */
 </style>

@@ -9,7 +9,7 @@
       <!-- 下拉菜单 -->
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
-          个人中心
+          {{name ? name + ' 欢迎你! ' : ''}}个人中心
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -22,16 +22,52 @@
 </template>
 
 <script>
+import logOut from "@/api/logout";
 export default {
   data() {
-    return {};
+    return {
+      name: localStorage.getItem("jinfeng-mms-username")
+    };
   },
 
   components: {},
 
   methods: {
+    //功能:点击退出功能，触发这里的代码
     handleCommand(command) {
-      this.$message("你点击了：" + command);
+      // this.$message("你点击了：" + command);
+      if (command == "a") {
+        //修改密码
+      } else {
+        //退出功能：清除本地token和用户名并跳回登陆页
+
+        //发送请求
+        this.toOut();
+      }
+    },
+    //功能:退出功能，axios发送请求
+    async toOut() {
+      //删除的ajax请求
+      try {
+        let token = localStorage.getItem("jinfeng-mms-token");
+        let p = await logOut.loginOut(token);
+        // console.log(p.data);
+        if (p.data.flag) {
+          //退出成功；就删除本地的登陆信息
+          localStorage.removeItem("jinfeng-mms-username");
+          localStorage.removeItem("jinfeng-mms-token");
+          this.$router.push("/login");
+        } else {
+          //如果失败就弹窗提示
+          this.$message({
+            message: "退出失败",
+            type: "error",
+            duration: 1000
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 };

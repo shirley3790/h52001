@@ -30,23 +30,30 @@ const routes = [
       {
         path: '/home',
         name: 'home',
-        component: Home
+        component: Home,
+        meta: {//元信息设置：显示面包屑文字；是否需要鉴权
+          title: '首页'
+        }
       }, {
         path: '/member',
         name: 'member',
-        component: Member
+        component: Member,
+        meta: { title: '会员管理' }
       }, {
         path: '/supplier',
         name: 'supplier',
-        component: Supplier
+        component: Supplier,
+        meta: { title: '供应商管理' }
       }, {
         path: '/goods',
         name: 'goods',
-        component: Goods
+        component: Goods,
+        meta: { title: '商品管理' }
       }, {
         path: '/staff',
         name: 'staff',
-        component: Staff
+        component: Staff, 
+        meta: { title: '员工管理' }
       }
     ]
   }
