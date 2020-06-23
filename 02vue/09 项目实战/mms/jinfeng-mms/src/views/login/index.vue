@@ -81,15 +81,16 @@ export default {
     async checkToken(token) {
       try {
         let p = await loginApi.getUserInf(token);
-        console.log(p.data);
+        // console.log(p.data);
         if (p.data.flag) {
           //   alert("登陆成功");
           //跳转到首页并且把token和用户名存储到本地存储localstorage
-          this.$router.push("/");
           //存储数据到本地
           this.$message("登陆成功");
           localStorage.setItem("jinfeng-mms-username", p.data.data.name);
           localStorage.setItem("jinfeng-mms-token", token);
+          this.$router.push("/");
+          
         } else {
           //   alert("登陆失败");
           this.$message.error("登陆失败");

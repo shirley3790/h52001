@@ -10,7 +10,13 @@ import Supplier from '@/views/supplier'
 import Goods from '@/views/goods'
 import Staff from '@/views/staff'
 
+
 Vue.use(VueRouter);
+// const VueRouterPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push(to) {
+//   return VueRouterPush.call(this, to).catch(err => err)
+// }
+
 
 //components:一般是放子组件(很小的、复用的组件；轮播图组件、按钮组件、头部组件、底部组件)
 //views：路由引入的，大一点，页面组件，没有复用
@@ -64,5 +70,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
+
+
 
 export default router;
