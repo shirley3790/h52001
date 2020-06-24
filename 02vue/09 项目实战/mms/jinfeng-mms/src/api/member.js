@@ -13,10 +13,19 @@ export default {
     // page当前页码, size 每页显示条数, searchMap 查询条件
     // 后台要通过 page 和 size 统计本次请求响应的数据
     search(page, size, searchMap) {
+        // console.log(searchMap, 333);
         return request({
             url: BAST_API + `/member/list/search/${page}/${size}`,
             method: 'get',
             data: searchMap
+        })
+    },
+    //添加新会员
+    addMember(pojo) {
+        return request({
+            url: BAST_API + `/member`,
+            method: 'post',
+            data: pojo
         })
     }
 }
