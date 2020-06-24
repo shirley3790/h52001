@@ -4,7 +4,7 @@
       <!-- 导航菜单 router前面要加冒号，里面的属性值才是布尔值，否则是字符串-->
       <el-menu
         :router="true"
-        default-active="/home/"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#545c64"
         text-color="#fff"

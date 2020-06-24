@@ -62,7 +62,7 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -87,7 +87,7 @@
     ></el-pagination>
 
     <!-- 对话框 -->
-    <el-dialog title="会员添加" :visible.sync="dialogFormVisible" width="500px">
+    <el-dialog :title="id ? '编辑会员' : '添加会员' " :visible.sync="dialogFormVisible" width="500px">
       <el-form
         status-icon
         ref="pojoForm"
@@ -131,7 +131,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addMember('pojoForm')">确 定</el-button>
+        <el-button type="primary" @click="id ? editMember(id) : addMember('pojoForm') ">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -173,7 +173,7 @@ export default {
       },
       dialogFormVisible: false, //对话框的显示和隐藏,false默认弹窗是隐藏的
       pojo: {
-        //新增会员的数据
+        //新增、编辑会员的数据
         cardNum: "",
         name: "",
         birthday: "",
@@ -188,7 +188,8 @@ export default {
         cardNum: [{ required: true, message: "请输入卡号", trigger: "blur" }],
         name: [{ required: true, message: "请输入卡号", trigger: "blur" }],
         phone: [{ validator: phoneCheck, trigger: "blur" }]
-      }
+      },
+      id: null
     };
   },
 
@@ -243,13 +244,45 @@ export default {
       // console.log(index, row);
       //1、需求1：对话框打开，就把当前行的内容渲染到弹窗表单里面(直接获取当前行数据row就可以渲染；拿到id值，发送ajax请求这条数据，再进行渲染)
       this.dialogFormVisible = true;
+      // console.log(row);
+      this.id = row.id;
+      // console.log(this.id);
+      //把当前行的数据，渲染到表单里面
+      this.pojo = {
+        //新增、编辑会员的数据
+        cardNum: row.cardNum,
+        name: row.name,
+        birthday: row.birthday,
+        phone: row.phone,
+        money: row.money,
+        integral: row.integral,
+        payType: row.payType,
+        address: row.address
+      };
     },
 
     //功能：删除功能
-    handleDelete(index, row) {
+    async handleDelete(row) {
       //index：代表数组的下标，第n+1行
       //row:当前行数据,是一个对象
-      console.log(index, row);
+      // console.log(index, row);
+      try {
+        let p = await memberApi.delMember(row.id);
+        if (p.data.flag) {
+          //删除成功
+          this.$message({
+            message: "删除成功啦",
+            type: "success"
+          });
+          this.getSearch();
+        } else {
+          //删除失败
+          this.$message({
+            message: "删除失败啦",
+            type: "error"
+          });
+        }
+      } catch (err) {}
     },
 
     //功能：翻页的时候触发
@@ -309,12 +342,50 @@ export default {
 
     //功能：新增的时候，窗口打开之前，清除表单数据和校验提示
     addMan() {
+      this.id = null;
+      this.pojo = {
+        //新增、编辑会员的数据
+        cardNum: "",
+        name: "",
+        birthday: "",
+        phone: "",
+        money: "",
+        integral: "",
+        payType: "",
+        address: ""
+      };
       this.dialogFormVisible = true;
       this.$nextTick(() => {
         // this.$nextTick()它是一个异步事件，当渲染结束 之后 ，它的回调函数才会被执行
         // 弹出窗口打开之后 ，需要加载Dom, 就需要花费一点时间，我们就应该等待它加载完dom之后，再进行调用resetFields方法，重置表单和清除样式
         this.$refs["pojoForm"].resetFields();
       });
+    },
+
+    //功能：编辑对话框里面的那个确定,这个确定是为了提交编辑后的数据
+    async editMember(id) {
+      // console.log(id);
+      console.log("已经可以提交修改后的数据了");
+      try {
+        let p = await memberApi.putMember(id, this.pojo);
+        if (p.data.flag) {
+          //修改成功
+          this.$message({
+            message: "修改成功",
+            type: "success"
+          });
+
+          this.dialogFormVisible = false;
+        } else {
+          //修改失败
+          this.$message({
+            message: "修改失败",
+            type: "error"
+          });
+        }
+      } catch (err) {
+        console.log("发送失败");
+      }
     }
   },
   created() {

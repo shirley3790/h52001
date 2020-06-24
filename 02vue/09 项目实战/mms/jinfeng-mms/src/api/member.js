@@ -27,5 +27,20 @@ export default {
             method: 'post',
             data: pojo
         })
+    },
+    //修改新会员
+    putMember(id, pojo) {
+        return request({
+            url: BAST_API + `/member/${id}`,
+            method: 'put',
+            data: pojo
+        })
+    },
+    //删除会员
+    delMember(id) {
+        return request({
+            url: BAST_API + `/member/${id}`,
+            method: 'delete'
+        })
     }
 }
