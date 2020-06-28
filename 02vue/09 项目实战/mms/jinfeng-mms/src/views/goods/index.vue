@@ -185,6 +185,7 @@ export default {
     //功能：编辑功能
     handleEdit(id) {
       // console.log("编辑");
+      this.isEdit = true;
       // 重用打开新增窗口方法, 不要少了 this
       this.handleAdd();
       // 查询数据
@@ -230,13 +231,14 @@ export default {
     //功能：点击选择供应商表单的时候，打开对话框
     change() {
       // console.log("选择供应商", 666);
+      this.isEdit = false;
       this.dialogSupplierVisible = true;
     },
 
     //功能：用于接收子组件(供应商组件)传过来的数据
     optionSupplier(obj) {
-      console.log(obj, 111);
-      console.log(typeof obj);
+      // console.log(obj, 111);
+      // console.log(typeof obj);
       if (this.isEdit) {
         //为真：说明我在新增或编辑这里，打开的弹窗
         this.pojo.supplierName = obj.name;
@@ -255,10 +257,12 @@ export default {
 
     // 功能：提交新增数据
     addData(formName) {
+      this.isEdit = true; //重置开关
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 验证通过，提交添加,发送ajax，提交商品数据(新增一个商品)
           // alert("Add submit!");
+
           goodsApi.add(this.pojo).then(response => {
             const resp = response.data;
             if (resp) {
@@ -292,6 +296,7 @@ export default {
 
     //功能：更新数据
     updateData(formName) {
+      this.isEdit = true;
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 验证通过，提交添加
