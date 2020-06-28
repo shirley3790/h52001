@@ -25,27 +25,27 @@ export default {
     return {
       menuList: [
         {
-          path: "/home/",
+          path: "/home",
           icon: "el-icon-s-home",
           title: "首页"
         },
         {
-          path: "/member/",
+          path: "/member",
           icon: "el-icon-user-solid",
           title: "会员管理"
         },
         {
-          path: "/supplier/",
+          path: "/supplier",
           icon: "el-icon-s-cooperation",
           title: "供应商管理"
         },
         {
-          path: "/goods/",
+          path: "/goods",
           icon: "el-icon-s-goods",
           title: "商品管理"
         },
         {
-          path: "/staff/",
+          path: "/staff",
           icon: "el-icon-user",
           title: "员工管理"
         }

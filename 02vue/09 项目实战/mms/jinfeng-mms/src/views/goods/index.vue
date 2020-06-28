@@ -35,7 +35,7 @@
       <el-table-column prop="purchasePrice" label="进货价"></el-table-column>
       <el-table-column prop="storageNum" label="库存数量"></el-table-column>
       <el-table-column prop="supplierName" label="供应商"></el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="250">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDele(scope.row.id)">删除</el-button>
@@ -128,6 +128,7 @@ export default {
       },
       dialogSupplierVisible: false, //供应商对话框
       pojo: {
+        //新增的数据
         id: null,
         name: "",
         code: "",
@@ -149,7 +150,8 @@ export default {
         retailPrice: [
           { required: true, message: "零售价不能为空", trigger: "blur" }
         ]
-      }
+      },
+      isEdit: false //如果是新增或编辑的对话框，就显示为true，如果为false：是查询条件里面的供应商
     };
   },
 
@@ -182,16 +184,45 @@ export default {
 
     //功能：编辑功能
     handleEdit(id) {
-      console.log("编辑");
+      // console.log("编辑");
+      // 重用打开新增窗口方法, 不要少了 this
+      this.handleAdd();
+      // 查询数据
+      goodsApi.getById(id).then(response => {
+        const resp = response.data;
+        if (resp.flag) {
+          this.pojo = resp.data;
+        }
+      });
     },
 
     //功能：删除功能
     handleDele(id) {
-      console.log("删除");
+      // console.log("删除");
+      this.$confirm("确认删除这条记录吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 确认
+          goodsApi.deleteById(id).then(response => {
+            const resp = response.data;
+            //提示信息
+            this.$message({
+              type: resp.flag ? "success" : "error",
+              message: resp.message
+            });
+            if (resp.flag) {
+              // 删除成功，刷新列表
+              this.fetchData();
+            }
+          });
+        })
+        .catch(() => {
+          // 取消删除，不理会
+        });
     },
-
-    //功能：新增商品
-    handleAdd() {},
 
     //功能：重置
     resetForm() {},
@@ -202,20 +233,45 @@ export default {
       this.dialogSupplierVisible = true;
     },
 
-    //功能：用于接收父组件传过来的数据
+    //功能：用于接收子组件(供应商组件)传过来的数据
     optionSupplier(obj) {
-      // console.log(obj, 111);
-      this.dialogSupplierVisible = false; //隐藏这个对话框
-      this.searchMap.supplierName = obj.name;
-      this.searchMap.supplierId = obj.id;
+      console.log(obj, 111);
+      console.log(typeof obj);
+      if (this.isEdit) {
+        //为真：说明我在新增或编辑这里，打开的弹窗
+        this.pojo.supplierName = obj.name;
+        this.pojo.supplierId = obj.id;
+      } else {
+        this.searchMap.supplierName = obj.name;
+        this.searchMap.supplierId = obj.id;
+      }
+
+      if (typeof obj == "object") {
+        this.dialogSupplierVisible = false; //隐藏这个对话框
+      }
+
+      this.isEdit = false; //重置开关
     },
 
     // 功能：提交新增数据
     addData(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // 验证通过，提交添加
-          alert("Add submit!");
+          // 验证通过，提交添加,发送ajax，提交商品数据(新增一个商品)
+          // alert("Add submit!");
+          goodsApi.add(this.pojo).then(response => {
+            const resp = response.data;
+            if (resp) {
+              this.fetchData();
+              this.dialogFormVisible = false;
+            } else {
+              // 验证不通过
+              this.$message({
+                message: resp.message,
+                type: "warning"
+              });
+            }
+          });
         } else {
           // 验证不通过
           return false;
@@ -225,11 +281,36 @@ export default {
 
     // 功能：打开新增窗口
     handleAdd() {
+      this.isEdit = true; //新增的时候，把这个开关定为true
       this.dialogFormVisible = true;
       this.$nextTick(() => {
         // this.$nextTick()它是一个异步事件，当渲染结束 之后 ，它的回调函数才会被执行
         // 弹出窗口打开之后 ，需要加载Dom, 就需要花费一点时间，我们就应该等待它加载完dom之后，再进行调用resetFields方法，重置表单和清除样式
         this.$refs["pojoForm"].resetFields();
+      });
+    },
+
+    //功能：更新数据
+    updateData(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // 验证通过，提交添加
+          goodsApi.update(this.pojo).then(response => {
+            const resp = response.data;
+            if (resp.flag) {
+              this.fetchData();
+              this.dialogFormVisible = false;
+            } else {
+              // 验证不通过
+              this.$message({
+                message: resp.message,
+                type: "warning"
+              });
+            }
+          });
+        } else {
+          return false;
+        }
       });
     }
   },

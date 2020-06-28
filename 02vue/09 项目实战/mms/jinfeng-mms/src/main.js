@@ -4,6 +4,8 @@ import router from "./router";//路由表
 import store from "./store";//vuex存储库
 import ElementUI from 'element-ui';//引入elementUI框架
 import 'element-ui/lib/theme-chalk/index.css';//引入ui的css
+// 按需导入 ElementUI 组件
+// import { Loading, Message } from 'element-ui'
 
 //路由守卫
 import './permission.js';
