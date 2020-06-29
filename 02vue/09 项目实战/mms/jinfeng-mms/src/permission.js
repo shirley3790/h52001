@@ -1,5 +1,6 @@
 import router from '@/router';
 import loginApi from '@/api/login';
+import store from "./store";//vuex存储库
 /*
 权限校验：
 通过router路由前置钩子函数 beforeEach() ，
@@ -24,20 +25,19 @@ router.beforeEach(async (to, from, next) => {
     } else {
         //非登陆页，需要进行路由守卫==路由拦截
         //2.有没有token(听课证)
-        let token = localStorage.getItem('jinfeng-mms-token');
+        // let token = localStorage.getItem('jinfeng-mms-token');
+        let token = store.state.user.token;
         if (token == null || token == '') {
             //没有token(没有听课证)
             next('/login');//跳转到登陆页
         } else {
             //有token(有听课证)
             try {
-                let p = await loginApi.getUserInf(token);
-                // console.log(p.data);
-                if (p.data.flag) {
-                    //token验证通过,可以进入目标路由
+                let p = await store.dispatch('GetUserInfo');
+                if (p.flag) {
+                    //验证token，通过
                     next();
                 } else {
-                    //不通过:听课证错了，或听课证失效
                     next('/login');
                 }
             } catch (err) {

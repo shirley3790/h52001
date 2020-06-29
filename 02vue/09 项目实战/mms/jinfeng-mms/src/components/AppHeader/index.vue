@@ -55,7 +55,8 @@ export default {
     const validateOldPass = (rule, value, callback) => {
       //value就是你表单传入的值，value存的是旧密码
       // alert(this.user.id)
-      const username = localStorage.getItem("jinfeng-mms-username");
+      // const username = localStorage.getItem("jinfeng-mms-username");
+      const username = this.$store.state.user.username;
       passwordApi.checkPwd(username, value).then(response => {
         const resp = response.data;
         if (resp.flag) {
@@ -78,7 +79,8 @@ export default {
     };
 
     return {
-      name: localStorage.getItem("jinfeng-mms-username"),
+      // name: localStorage.getItem("jinfeng-mms-username"),
+      name: this.$store.state.user.username,
       dialogFormVisible: false, //弹窗的开关
       ruleForm: {
         //修改密码涉及的各项数据
@@ -106,7 +108,7 @@ export default {
 
   methods: {
     //功能:点击退出功能，触发这里的代码
-    handleCommand(command) {
+    async handleCommand(command) {
       // this.$message("你点击了：" + command);
       if (command == "a") {
         //修改密码
@@ -115,34 +117,52 @@ export default {
         //退出功能：清除本地token和用户名并跳回登陆页
 
         //发送请求
-        this.toOut();
+        // this.toOut();
+        try {
+          let p = await this.$store.dispatch("Logout");
+          if (p.flag) {
+            this.$message({
+              message: "退出成功",
+              type: "success"
+            });
+
+            this.$router.push("/login"); //退出成功
+          } else {
+            this.$message({
+              message: "退出失败",
+              type: "error"
+            });
+          }
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
 
     //功能:退出功能，axios发送请求
-    async toOut() {
-      //删除的ajax请求
-      try {
-        let token = localStorage.getItem("jinfeng-mms-token");
-        let p = await logOut.loginOut(token);
-        // console.log(p.data);
-        if (p.data.flag) {
-          //退出成功；就删除本地的登陆信息
-          localStorage.removeItem("jinfeng-mms-username");
-          localStorage.removeItem("jinfeng-mms-token");
-          this.$router.push("/login");
-        } else {
-          //如果失败就弹窗提示
-          this.$message({
-            message: "退出失败",
-            type: "error",
-            duration: 1000
-          });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    },
+    // async toOut() {
+    //   //删除的ajax请求
+    //   try {
+    //     let token = localStorage.getItem("jinfeng-mms-token");
+    //     let p = await logOut.loginOut(token);
+    //     // console.log(p.data);
+    //     if (p.data.flag) {
+    //       //退出成功；就删除本地的登陆信息
+    //       localStorage.removeItem("jinfeng-mms-username");
+    //       localStorage.removeItem("jinfeng-mms-token");
+    //       this.$router.push("/login");
+    //     } else {
+    //       //如果失败就弹窗提示
+    //       this.$message({
+    //         message: "退出失败",
+    //         type: "error",
+    //         duration: 1000
+    //       });
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // },
 
     //功能：修改密码
     handlePwd() {
