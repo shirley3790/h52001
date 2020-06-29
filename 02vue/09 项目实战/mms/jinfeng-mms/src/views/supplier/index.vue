@@ -1,7 +1,13 @@
 <template>
   <div>
     <!-- 查询表单 -->
-    <el-form ref="searchForm" :inline="true" :model="searchMap" style="margin-top: 20px;">
+    <el-form
+      ref="searchForm"
+      :inline="true"
+      :model="searchMap"
+      style="margin-top: 20px;"
+      v-if="searchMap.name"
+    >
       <el-form-item prop="name">
         <el-input v-model="searchMap.name" v-if="!isshow" placeholder="商品名称" style="width: 200px;"></el-input>
       </el-form-item>
@@ -25,7 +31,8 @@
       border
       style="width: 100%"
       highlight-current-row
-      @current-change="handleCurrentChange"
+      @current-change="handleChange"
+      v-if="list"
     >
       <el-table-column type="index" label="序号" width="60"></el-table-column>
       <el-table-column prop="name" label="供应商名称" width="250"></el-table-column>
@@ -66,6 +73,7 @@
         label-width="100px"
         label-position="right"
         style="width: 400px;"
+        v-if="pojo.name"
       >
         <el-form-item label="供应商名称" prop="name">
           <el-input v-model="pojo.name" />
@@ -175,15 +183,17 @@ export default {
 
     //功能：当前页面发生改变就触发这里
     handleCurrentChange(val) {
-      this.currentPage = val;
-      this.fetchData();
+      this.$nextTick(() => {
+        this.currentPage = val;
+        this.fetchData();
+      });
     },
 
     // 功能：表单重置
     // 在 el-form-item 标签属性 prop 上, 指定了字段名, 重置才会生效
     resetForm() {
       // this.$refs[formName].resetFields();
-      this.$refs.searchForm.resetFields();
+      // this.$refs.searchForm.resetFields();
       this.$refs["searchForm"].resetFields();
     },
 
@@ -201,7 +211,8 @@ export default {
 
     //功能：新增供应商：点击了确定按钮，提交数据的地方
     addData(formName) {
-      this.$refs[formName].validate(valid => {
+      // this.$refs[formName].validate(valid => {
+      this.$refs.pojoForm.validate(valid => {
         if (valid) {
           // 验证通过，提交添加；发送ajax真正的提交数据
           // alert("Add submit!");
@@ -278,7 +289,7 @@ export default {
     },
 
     //功能：在商品管理模块，选择供应商的时候触发
-    handleCurrentChange(currentRow) {
+    handleChange(currentRow) {
       // console.log(currentRow);
       //点击某一行，就拿到这行的数据，发送给父组件，这里用到自定义事件
       this.$emit("option-supplier", currentRow);

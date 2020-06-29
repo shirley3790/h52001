@@ -243,7 +243,7 @@ export default {
     //功能：点击选择供应商表单的时候，打开对话框
     change() {
       // console.log("选择供应商", 666);
-      this.isEdit = false;
+      // this.isEdit = false;
       this.dialogSupplierVisible = true;
     },
 
@@ -251,20 +251,21 @@ export default {
     optionSupplier(obj) {
       // console.log(obj, 111);
       // console.log(typeof obj);
+      console.log(this.isEdit, 666);
       if (this.isEdit) {
         //为真：说明我在新增或编辑这里，打开的弹窗
         this.pojo.supplierName = obj.name;
         this.pojo.supplierId = obj.id;
+        this.isEdit = true; //重置开关
       } else {
         this.searchMap.supplierName = obj.name;
         this.searchMap.supplierId = obj.id;
+        this.isEdit = false; //重置开关
       }
 
       if (typeof obj == "object") {
         this.dialogSupplierVisible = false; //隐藏这个对话框
       }
-
-      this.isEdit = false; //重置开关
     },
 
     // 功能：提交新增数据

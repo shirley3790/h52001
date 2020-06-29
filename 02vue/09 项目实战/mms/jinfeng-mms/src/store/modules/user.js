@@ -1,14 +1,22 @@
-import { getToken, setToken, getUser, setUser, logOut } from '@/utils/auth';//引入相关方法用于对本地存储进行数据的操作
+import {
+    getToken,
+    setToken,
+    getUser,
+    setUser,
+    logOut
+} from '@/utils/auth'; //引入相关方法用于对本地存储进行数据的操作
 import loginApi from '@/api/login';
 import logoutApi from '@/api/logout';
 //引入elementUI的弹窗组件
-import { Message } from 'element-ui'
+import {
+    Message
+} from 'element-ui'
 
 
 export default {
     //状态
     state: {
-        token: '',
+        token: getToken(), //防止刷新就回到登录页
         username: ''
     },
 
@@ -16,8 +24,8 @@ export default {
     mutations: {
         //存token
         SET_TOKEN(state, token) {
-            state.token = token;//存到state
-            setToken(token);//存到本地存储
+            state.token = token; //存到state
+            setToken(token); //存到本地存储
         },
 
         //存用户名
@@ -38,14 +46,17 @@ export default {
     //actions可以用于发送异步请求
     actions: {
         //发送ajax验证用户名和密码，成功就返回token
-        Login(context, { name, password }) {
+        Login(context, {
+            name,
+            password
+        }) {
             return new Promise(async (resolve, reject) => {
                 try {
                     let p = await loginApi.loginIn(name, password);
                     if (p.data.flag) {
                         //验证通过，获取到token存入到本地和state里面
-                        context.commit('SET_TOKEN', p.data.data.token);//后端生成的token
-                        resolve(p.data);//如果成功，把数据返回
+                        context.commit('SET_TOKEN', p.data.data.token); //后端生成的token
+                        resolve(p.data); //如果成功，把数据返回
                         // context.dispatch('GetUserInfo');
                     } else {
                         // console.log('请求失败');
@@ -64,7 +75,10 @@ export default {
         },
 
         //发送ajax(把token发给后端)，获取用户信息
-        GetUserInfo({ commit, state }) {
+        GetUserInfo({
+            commit,
+            state
+        }) {
             return new Promise(async (resolve, reject) => {
                 try {
                     let p = await loginApi.getUserInf(state.token);
@@ -72,11 +86,11 @@ export default {
                     if (p.data.flag) {
                         //验证token通过，返回用户信息,把用户名存到state和本地存储
                         commit('SET_USER', p.data.data.name);
-                        resolve(p.data);//成功的回调
+                        resolve(p.data); //成功的回调
                     }
                 } catch (err) {
                     // console.log(err);
-                    reject(err);//失败的回调
+                    reject(err); //失败的回调
                 }
             })
             // console.log(789);
@@ -84,7 +98,10 @@ export default {
         },
 
         //退出
-        Logout({ commit, state }) {
+        Logout({
+            commit,
+            state
+        }) {
             return new Promise(async (resolve, reject) => {
                 try {
                     let p = await logoutApi.loginOut(state.token);
