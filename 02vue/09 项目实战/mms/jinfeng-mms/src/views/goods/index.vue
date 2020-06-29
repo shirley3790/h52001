@@ -167,6 +167,18 @@ export default {
           this.total = reqs.data.total;
           this.list = reqs.data.rows;
           //console.log(this.list)
+        })
+        .catch(err => {
+          console.log(err);
+          // if (err.code == 404) {
+          //   //找不到该页面
+          //   this.$router.push("/404");
+          // }
+
+          // if (err.code == 500) {
+          //   //服务器异常
+          //   this.$router.push("/500");
+          // }
         });
     },
 

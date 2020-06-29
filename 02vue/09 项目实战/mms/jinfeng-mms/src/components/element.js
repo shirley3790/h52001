@@ -1,6 +1,7 @@
 // 按需引入 Element 组件
-import { Form, Table, Pagination, Dialog, Button, Dropdown, DropdownMenu, DropdownItem, Menu, MenuItem, Breadcrumb, BreadcrumbItem, FormItem, Input, Select, Option, Col, DatePicker, TableColumn, MessageBox, Message } from 'element-ui'
-let elementUIs = [Form, Table, Pagination, Dialog, Button, Dropdown, DropdownMenu, DropdownItem, Menu, MenuItem, Breadcrumb, BreadcrumbItem, FormItem, Input, Select, Option, Col, DatePicker, TableColumn]
+import { Dialog, Button, Dropdown, DropdownMenu, DropdownItem, Menu, MenuItem, Breadcrumb, BreadcrumbItem, FormItem, Input, Select, Option, Col, DatePicker, TableColumn, MessageBox, Message, Form, Table, Pagination } from 'element-ui'
+
+let elementUIs = [Dialog, Button, Dropdown, DropdownMenu, DropdownItem, Menu, MenuItem, Breadcrumb, BreadcrumbItem, FormItem, Input, Select, Option, Col, DatePicker, TableColumn, Form, Table, Pagination]
 
 export default {
     install(Vue) {

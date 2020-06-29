@@ -1,5 +1,6 @@
 //对axios进行二次封装
 import axios from 'axios/dist/axios';//引入axios
+import router from '@/router';
 
 // 按需导入 ElementUI 组件
 import { Loading, Message } from 'element-ui'
@@ -48,9 +49,37 @@ request.interceptors.request.use(config => {
 // 响应拦截器:如果服务器有响应，就会触发这个拦截器
 request.interceptors.response.use(response => {
     loading.close() // 关闭加载效果
+    //统一的异常提醒
+    if (response.data.code != 2000) {//2000代表成功
+        //要不就是跳转页面，要不就弹窗提示
+        // this.$router.push("/404");//错误的写法，因为这个文件不是vue组件，this找不到vue实例
+        // router.push("/404");//正确的写法
+        //这里的异常：发送成功，并且响应了，只是出错
+        Message({
+            message: res.message || '系统异常',
+            type: 'warning',
+            duration: 5 * 1000 // 停留时长
+        })
+    }
     return response
 }, error => {
     loading.close() // 关闭加载效果
+    //如果有异常：发送请求的异常  404 500
+    Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+    })
+
+    if (error.status == 404) {
+        //找不到该页面
+        router.push("/404");
+    }
+
+    if (error.status == 500) {
+        //服务器异常
+        router.push("/500");
+    }
     return Promise.reject(error);
 })
 
