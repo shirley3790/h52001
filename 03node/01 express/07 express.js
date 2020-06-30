@@ -1,4 +1,4 @@
-//引入express(第三方，用之前要安装)
+//引入express(第三方，用之前要安装 npm i express)
 
 let express = require('express');
 
@@ -75,8 +75,8 @@ app.get('/good', (req, res) => {
 });
 
 //post请求：注册账号
-//express.urlencoded() 用于接收 application/x-www-form-urlencoded : key1=val1&key2=val2
-app.post('/reg', express.urlencoded(), (req, res) => {
+//express.urlencoded() 用于接收的数据 application/x-www-form-urlencoded : key1=val1&key2=val2
+app.post('/reg', express.urlencoded({ extended: false }), (req, res) => {
     //前端把账号和密码发过来，后端拿到，存到数据库里面
     console.log(req.body);//{name:'laoxie',psw:123456}
     //发送ajax，把数据插入到数据库里面
@@ -89,7 +89,12 @@ app.post('/reg', express.urlencoded(), (req, res) => {
 });
 
 //put请求:把id为2的商品名称换成 小米
-app.put('/good', express.urlencoded(), (req, res) => {
+var bodyParser = require('body-parser');
+app.use(bodyParser.json())
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+//如果用express内置的中间件，启动服务的时候，cmd命令窗口会有警告。如果不喜欢看这个黄色的警告，可以自行安装body-parser (npm i body-parser);再引入即可。完美解决这个警告的问题
+// app.put('/good', express.urlencoded(), (req, res) => { 
+app.put('/good', urlencodedParser, (req, res) => {
     let obj = req.body;//{name:'小米',id:2}
     // let test = req.query;
     // console.log(test);
