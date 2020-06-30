@@ -25,7 +25,7 @@
       border
       style="width: 100%"
       highlight-current-row
-      @current-change="handleCurrentChange"
+      @current-change="handleChange"
     >
       <el-table-column type="index" label="序号" width="60"></el-table-column>
       <el-table-column prop="name" label="供应商名称" width="250"></el-table-column>
@@ -173,7 +173,7 @@ export default {
       this.fetchData();
     },
 
-    //功能：当前页面发生改变就触发这里
+    //功能：当前页码发生改变就触发这里
     handleCurrentChange(val) {
       this.currentPage = val;
       this.fetchData();
@@ -278,7 +278,7 @@ export default {
     },
 
     //功能：在商品管理模块，选择供应商的时候触发
-    handleCurrentChange(currentRow) {
+    handleChange(currentRow) {
       // console.log(currentRow);
       //点击某一行，就拿到这行的数据，发送给父组件，这里用到自定义事件
       this.$emit("option-supplier", currentRow);

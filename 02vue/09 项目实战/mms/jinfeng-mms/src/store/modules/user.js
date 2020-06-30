@@ -8,8 +8,8 @@ import { Message } from 'element-ui'
 export default {
     //状态
     state: {
-        token: '',
-        username: ''
+        token: getToken(),//防止页面刷新，拿不到token，跳回登陆页
+        username: getUser()//防止刷新页面用户名就不见了
     },
 
     //方法
