@@ -251,6 +251,7 @@ export default {
     optionSupplier(obj) {
       // console.log(obj, 111);
       // console.log(typeof obj);
+      console.log(this.isEdit, 666);
       if (this.isEdit) {
         //为真：说明我在新增或编辑这里，打开的弹窗
         this.pojo.supplierName = obj.name;
