@@ -12,6 +12,21 @@ router.use(bodyParser.urlencoded({ extended: false }));//转键值对数据 key=
 const usersRouter = require('./modules/usersRouter');
 const goodsRouter = require('./modules/goodsRouter');
 
+//CORS跨域：方便和小伙伴共享接口
+//把这个路由配置放在所有路由的前面，方便调用next操作
+Router.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "PUT,PATCH,POST,GET,DELETE,OPTIONS");
+
+    // 跨域请求CORS中的预请求
+    if (req.method == "OPTIONS") { //特殊请求：发送了请求头的那些请求
+        res.sendStatus(200); /*让options请求快速返回*/
+    } else {
+        next();
+    }
+})
+
 
 router.use('/user', usersRouter);//启用子路由:use里面的函数是中间件
 //中间件本质上是函数，但是函数不一定是中间件 (req, res, next)
