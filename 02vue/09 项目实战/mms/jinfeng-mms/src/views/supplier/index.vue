@@ -1,13 +1,7 @@
 <template>
   <div>
     <!-- 查询表单 -->
-    <el-form
-      ref="searchForm"
-      :inline="true"
-      :model="searchMap"
-      style="margin-top: 20px;"
-      v-if="searchMap.name"
-    >
+    <el-form ref="searchForm" :inline="true" :model="searchMap" style="margin-top: 20px;">
       <el-form-item prop="name">
         <el-input v-model="searchMap.name" v-if="!isshow" placeholder="商品名称" style="width: 200px;"></el-input>
       </el-form-item>
