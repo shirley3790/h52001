@@ -62,7 +62,7 @@ router.get('/orders/:uid', async (req, res) => {
         if (sidarr.length) {
             //查到数据，证明该用户曾购买过商品,按商铺归类做数据
             for (let i = 0; i < sidarr.length; i++) {
-                console.log(sidarr[i].sid + '次');
+                // console.log(sidarr[i].sid + '次');
                 var str2 = `SELECT * FROM inf_cart WHERE sid=${sidarr[i].sid} AND uid=1`;//查找某个用户在某个商店下买点所有商品
                 var data2 = await query(str2);
                 data2.forEach(item => {
