@@ -12,9 +12,11 @@ router.use(bodyParser.urlencoded({ extended: false }));//转键值对数据 key=
 const usersRouter = require('./modules/usersRouter');
 const goodsRouter = require('./modules/goodsRouter');
 
+
 router.use('/user', usersRouter);//启用子路由:use里面的函数是中间件
 //中间件本质上是函数，但是函数不一定是中间件 (req, res, next)
 router.use('/good', goodsRouter);//启用子路由
+
 
 //划分子路由
 
