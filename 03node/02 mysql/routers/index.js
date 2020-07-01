@@ -12,7 +12,7 @@ router.use(bodyParser.urlencoded({ extended: false }));//转键值对数据 key=
 const usersRouter = require('./modules/usersRouter');
 const goodsRouter = require('./modules/goodsRouter');
 
-//CORS跨域：方便和小伙伴共享接口
+//CORS跨域：方便和小伙伴共享接口：加上这段话，再设置防火墙，别人就可以访问你的接口了(记得保证服务器开启)
 //把这个路由配置放在所有路由的前面，方便调用next操作
 Router.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
