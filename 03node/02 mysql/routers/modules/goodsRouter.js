@@ -1,6 +1,7 @@
 const express = require('express');
 //引入mysql方法，做数据库的查询
 const query = require('../../db/mysql');
+const { verify } = require('jsonwebtoken');
 const router = express.Router();//router==app
 
 

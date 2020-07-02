@@ -9,12 +9,13 @@ router.use(bodyParser.json());//转json数据的 {"key":"value","key":"value"}
 router.use(bodyParser.urlencoded({ extended: false }));//转键值对数据 key=value&key=value
 
 //导入子路由
-const usersRouter = require('./modules/usersRouter');
-const goodsRouter = require('./modules/goodsRouter');
+const usersRouter = require('./modules/usersRouter');//用户管理的接口
+const goodsRouter = require('./modules/goodsRouter');//商品管理的接口
+const uploadRouter = require('./modules/upload');//上传图片的接口
 
 //CORS跨域：方便和小伙伴共享接口：加上这段话，再设置防火墙，别人就可以访问你的接口了(记得保证服务器开启)
 //把这个路由配置放在所有路由的前面，方便调用next操作
-Router.use((req, res, next) => {
+router.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
     res.header("Access-Control-Allow-Methods", "PUT,PATCH,POST,GET,DELETE,OPTIONS");
@@ -27,10 +28,11 @@ Router.use((req, res, next) => {
     }
 })
 
-
+//use无论是什么请求都可以进入
 router.use('/user', usersRouter);//启用子路由:use里面的函数是中间件
 //中间件本质上是函数，但是函数不一定是中间件 (req, res, next)
 router.use('/good', goodsRouter);//启用子路由
+router.use('/upload', uploadRouter);//启用子路由
 
 
 //划分子路由
