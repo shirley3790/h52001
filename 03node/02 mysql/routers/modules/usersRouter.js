@@ -24,6 +24,7 @@ const router = express.Router();//router==app
 router.get('/checkname', async (req, res) => {
     // console.log(6666);
     let { name } = req.query;
+    console.log(name);
     try {
         let sql = `SELECT * FROM userinf WHERE name='${name}'`;
         let p = await query(sql);//[{},{}]

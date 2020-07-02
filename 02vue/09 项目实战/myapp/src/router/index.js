@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-
+import Vant from "../views/Vant.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -18,7 +18,12 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+  },
+  {
+    path: "/vant",
+    name: "vant",
+    component: Vant
+  },
 ];
 
 const router = new VueRouter({

@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
+    <!-- 如果在vant组件内就不显示导航 -->
+    <div id="nav" v-if="$route.path != '/vant'">
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
     <router-view />
