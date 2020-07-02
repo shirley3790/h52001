@@ -61,7 +61,7 @@ router.post('/touxiang', upload.single('avatar'), async (req, res) => {
 
 })
 
-//上传多个文件:商品图片 每次最多上传5张  /upload/goodsimg
+//上传多个文件:商品图片 每次最多上传3张  /upload/goodsimg
 router.post('/goodsimg', upload.array('goods', 3), async (req, res) => {
     // req.files 是 `goods` 文件数组的信息
     // req.body 将具有文本域数据，如果存在的话
