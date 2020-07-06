@@ -6,17 +6,15 @@
     <input type="button" value="注册" @click="regbtn" />
     <br />
     <input type="button" value="修改密码" @click="changePsw" />
-
-    <swiper></swiper>
   </div>
 </template>
 
 <script>
 import userApi from "@/api/login";
-import swiper from "@/components/swiper.vue";
+
 export default {
   name: "Home",
-  components: { swiper },
+  components: {},
   methods: {
     async check() {
       try {
@@ -26,7 +24,7 @@ export default {
     },
     async regbtn() {
       try {
-        let p = await userApi.reg("李彬77", "66666");
+        let p = await userApi.reg("杨超越", "66666");
         console.log(p.data);
       } catch (err) {}
     },
